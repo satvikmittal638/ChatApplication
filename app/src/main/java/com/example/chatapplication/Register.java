@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,22 +16,33 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import es.dmoral.toasty.Toasty;
 
 public class Register extends AppCompatActivity {
-TextInputLayout regUname,regPwd;
+TextInputLayout regEmail,regPwd;
 private FirebaseAuth mAuth;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user=mAuth.getCurrentUser();
+        if(user!=null){
+            startActivity(new Intent(this,ActiveUsers.class));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-            regUname=findViewById(R.id.regUname);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+            regEmail=findViewById(R.id.regEmail);
             regPwd=findViewById(R.id.regPwd);
             mAuth=FirebaseAuth.getInstance();
-
-
-
     }
 
     public void toLogin(View view) {
@@ -40,10 +52,10 @@ private FirebaseAuth mAuth;
     }
 
     public void userRegister(View view) {
-        String uname=regUname.getEditText().getText().toString(),
+        String email=regEmail.getEditText().getText().toString(),
                 pwd=regPwd.getEditText().getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(uname,pwd)
+        mAuth.createUserWithEmailAndPassword(email,pwd)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -52,17 +64,17 @@ private FirebaseAuth mAuth;
                             startActivity(new Intent(Register.this,Login.class));
                             finish();
                         }else{
-                            Toasty.error(getApplicationContext(),"Registration unsuccessful",Toasty.LENGTH_SHORT).show();
+                            Toasty.error(getApplicationContext(),"Registration failed",Toasty.LENGTH_SHORT).show();
+                            clearTexts();
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toasty.error(getApplicationContext(),e.getMessage(),Toasty.LENGTH_SHORT).show();
                     }
                 });
 
 
+    }
+
+    private void clearTexts(){
+        regEmail.getEditText().setText("");
+        regPwd.getEditText().setText("");
     }
 }
