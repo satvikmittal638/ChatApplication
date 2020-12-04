@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="130dp"
+    android:id="@+id/sUserCardV"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
@@ -27,15 +28,19 @@
             android:textStyle="bold"
             android:id="@+id/activeUserEmail"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Go to chat"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/goToChat"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_toEndOf="@id/activeUserImage"
+            android:layout_height="wrap_content"
+           android:layout_alignParentBottom="true"
+            android:text="Status"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:id="@+id/userStatus"/>
 
-            />
+
 
     </RelativeLayout>
 

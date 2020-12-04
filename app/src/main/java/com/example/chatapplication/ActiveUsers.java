@@ -68,7 +68,7 @@ public class ActiveUsers extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
 
         Toasty.success(getApplicationContext(),"Sign out Successful",Toasty.LENGTH_SHORT).show();
-        startActivity(new Intent(this,Login.class));
+        startActivity(new Intent(ActiveUsers.this,Login.class));
         finish();
     }
 

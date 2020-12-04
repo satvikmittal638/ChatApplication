@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatapplication.R;
 
 public class viewHolderActiveUsers extends RecyclerView.ViewHolder {
-TextView disp_email;
-Button goToChat;
+TextView disp_email,disp_status;
+CardView sUserCardV;
     public viewHolderActiveUsers(@NonNull View itemView) {
         super(itemView);
         disp_email=itemView.findViewById(R.id.activeUserEmail);
-        goToChat=itemView.findViewById(R.id.goToChat);
+        sUserCardV=itemView.findViewById(R.id.sUserCardV);
+        disp_status=itemView.findViewById(R.id.userStatus);
     }
 }

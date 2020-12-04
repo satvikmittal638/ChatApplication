@@ -69,6 +69,7 @@ MessagesAdapter messagesAdapter;
                     Toasty.warning(getApplicationContext(),"You cannot send a empty message",Toasty.LENGTH_SHORT).show();
                 else{
                     sendMsg(currentUser.getEmail(),userToChatWith,message);
+                    msg.getEditText().setText("");
                     Toasty.success(getApplicationContext(),"Message sent successfully",Toasty.LENGTH_SHORT).show();
                     }
             }

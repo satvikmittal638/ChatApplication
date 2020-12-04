@@ -14,6 +14,8 @@ import com.example.chatapplication.Model.userModel;
 import com.example.chatapplication.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
 import es.dmoral.toasty.Toasty;
@@ -40,16 +42,31 @@ Context context;
 
     @Override
     protected void onBindViewHolder(@NonNull viewHolderActiveUsers holder, int position, @NonNull userModel model) {
-        holder.disp_email.setText(model.getEmail());
-        holder.goToChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(holder.disp_email.getContext(), ChatPage.class);
-                intent.putExtra("userToChatWith",model.getEmail());
-                holder.disp_email.getContext().startActivity(intent);
-                Toast.makeText(holder.disp_email.getContext(),"Chat here",Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
+        FirebaseUser selfUser= FirebaseAuth.getInstance().getCurrentUser();
+
+
+        if(selfUser!=null && (model.getEmail().equals(selfUser.getEmail())) ) {
+            holder.disp_email.setText("You");
+            holder.disp_status.setText("Online");
+        }else{
+
+            holder.disp_email.setText(model.getEmail());
+            holder.disp_status.setText(model.getStatus());
+
+            holder.sUserCardV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(holder.disp_email.getContext(), ChatPage.class);
+                    intent.putExtra("userToChatWith",model.getEmail());
+                    holder.disp_email.getContext().startActivity(intent);
+                    Toast.makeText(holder.disp_email.getContext(),"Chat here",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
     }
 
 
