@@ -31,6 +31,8 @@ import java.util.Map;
 import es.dmoral.toasty.Toasty;
 
 public class ChatPage extends AppCompatActivity {
+List<disp_msgModel> dispMsgModelList;
+
 TextInputLayout msg;
 ImageView send_btn;
 RecyclerView chatsRec;
@@ -59,15 +61,6 @@ MessagesAdapter messagesAdapter;
         chatsRec.setLayoutManager(new LinearLayoutManager(this));
         chatsRec.setHasFixedSize(true);
 
-        //causing the repetition of msges
-        messagesAdapter=new MessagesAdapter(getUsefulMsg(currentUser.getEmail(),userToChatWith));
-        chatsRec.setAdapter(messagesAdapter);
-
-
-
-
-
-
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,12 +70,13 @@ MessagesAdapter messagesAdapter;
                 else{
                     sendMsg(currentUser.getEmail(),userToChatWith,message);
                     Toasty.success(getApplicationContext(),"Message sent successfully",Toasty.LENGTH_SHORT).show();
-
-                    messagesAdapter=new MessagesAdapter(getUsefulMsg(currentUser.getEmail(),userToChatWith));
-                    chatsRec.setAdapter(messagesAdapter);
                     }
             }
         });
+        readMsg(currentUser.getEmail(),userToChatWith);
+
+
+
 
     }
 
@@ -97,14 +91,15 @@ MessagesAdapter messagesAdapter;
     FirebaseDatabase.getInstance().getReference().child("Chats").push().setValue(mapObj);
     }
 
-    private List<disp_msgModel> getUsefulMsg(String me, String him){
-        List<disp_msgModel> dispMsgModelList=new ArrayList<>();
+    private void readMsg(String me, String him){
+        dispMsgModelList=new ArrayList<>();
 
         FirebaseDatabase.getInstance().getReference("Chats")
                 .addValueEventListener(new ValueEventListener() {
                     //everytime data is added,it checks whether it ito be added to the List for displaying messages or not using a for each loop
                     @Override
                     public void onDataChange(@NonNull  DataSnapshot parentSnapshot) {
+                        dispMsgModelList.clear();
                         for (DataSnapshot childSnapshot:parentSnapshot.getChildren()){
                             disp_msgModel chatM=childSnapshot.getValue(disp_msgModel.class);
                             if(chatM.getSender().equals(me) && chatM.getReceiver().equals(him)||
@@ -120,6 +115,7 @@ MessagesAdapter messagesAdapter;
 
                     }
                 });
-        return dispMsgModelList;
+        messagesAdapter=new MessagesAdapter(dispMsgModelList);
+        chatsRec.setAdapter(messagesAdapter);
     }
 }

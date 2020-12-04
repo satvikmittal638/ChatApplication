@@ -35,7 +35,7 @@ public class ActiveUsers extends AppCompatActivity {
 
         FirebaseRecyclerOptions<userModel> dataFromDB =
                 new FirebaseRecyclerOptions.Builder<userModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("activeUsers"), userModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Users"), userModel.class)
                         .build();
         Log.d("fdb","got the data from the fdb");
 
@@ -62,9 +62,9 @@ public class ActiveUsers extends AppCompatActivity {
     public void logout(View view) {
         FirebaseUser signOutUser=FirebaseAuth.getInstance().getCurrentUser();
 
-        FirebaseDatabase.getInstance().getReference().child("activeUsers")
-                .child(signOutUser.getUid()).removeValue();
-        Log.d("fdb","removed "+signOutUser.getEmail()+" from active users");
+        FirebaseDatabase.getInstance().getReference("Users")
+                .child(signOutUser.getUid()).child("status").setValue("offline");
+        Log.d("fdb","made "+signOutUser.getEmail()+" offline in users");
         FirebaseAuth.getInstance().signOut();
 
         Toasty.success(getApplicationContext(),"Sign out Successful",Toasty.LENGTH_SHORT).show();

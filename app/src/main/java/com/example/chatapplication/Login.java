@@ -41,9 +41,10 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            FirebaseDatabase.getInstance().getReference().child("activeUsers")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("uemail").setValue(email);
-                            Log.d("fdb","added "+email+" to active users");
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child("status").setValue("online");
+                            Log.d("fdb","made "+email+" online");
 
 
                             Toasty.success(getApplicationContext(),"Login Successful",Toasty.LENGTH_SHORT).show();

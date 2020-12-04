@@ -40,12 +40,12 @@ Context context;
 
     @Override
     protected void onBindViewHolder(@NonNull viewHolderActiveUsers holder, int position, @NonNull userModel model) {
-        holder.disp_email.setText(model.getUemail());
+        holder.disp_email.setText(model.getEmail());
         holder.goToChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(holder.disp_email.getContext(), ChatPage.class);
-                intent.putExtra("userToChatWith",model.getUemail());
+                intent.putExtra("userToChatWith",model.getEmail());
                 holder.disp_email.getContext().startActivity(intent);
                 Toast.makeText(holder.disp_email.getContext(),"Chat here",Toast.LENGTH_SHORT).show();
             }

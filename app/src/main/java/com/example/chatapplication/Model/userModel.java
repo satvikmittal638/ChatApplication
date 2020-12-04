@@ -1,18 +1,28 @@
 package com.example.chatapplication.Model;
 
 public class userModel {
-    String uemail;
+    String email,status;
 
     public userModel(){}
-    public userModel(String uemail) {
-        this.uemail = uemail;
+
+    public userModel(String email, String status) {
+        this.email = email;
+        this.status = status;
     }
 
-    public String getUemail() {
-        return uemail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUemail(String uemail) {
-        this.uemail = uemail;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
