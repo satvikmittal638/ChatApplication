@@ -26,10 +26,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<viewHolderMessages> {
         this.usefulMsg=usefulMsg;
     }
 
-
-    public void clearList(){
-        this.usefulMsg.clear();
-    }
     @NonNull
     @Override
     public viewHolderMessages onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
