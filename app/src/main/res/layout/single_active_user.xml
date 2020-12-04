@@ -27,6 +27,16 @@
             android:textStyle="bold"
             android:id="@+id/activeUserEmail"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go to chat"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/goToChat"
+            android:layout_toEndOf="@id/activeUserImage"
+
+            />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

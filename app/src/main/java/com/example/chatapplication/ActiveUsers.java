@@ -9,10 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import com.example.chatapplication.Model.userModel;
-import com.example.chatapplication.RecyclerViewA.FirebaseRecViewAdapter;
+import com.example.chatapplication.RecyclerViewActiveUsers.ActiveUsersAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +21,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ActiveUsers extends AppCompatActivity {
     RecyclerView recyclerView;
-    FirebaseRecViewAdapter firebaseAdapter;
+   ActiveUsersAdapter firebaseAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,7 @@ public class ActiveUsers extends AppCompatActivity {
                         .build();
         Log.d("fdb","got the data from the fdb");
 
-      firebaseAdapter=new FirebaseRecViewAdapter(dataFromDB,this);
+      firebaseAdapter=new ActiveUsersAdapter(dataFromDB,this);
 
       recyclerView.setAdapter(firebaseAdapter);
 

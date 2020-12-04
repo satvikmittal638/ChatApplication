@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatPage">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email chatting with"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:textStyle="bold|italic"
+        android:id="@+id/head"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatmsgRec"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/msg"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/chatmsgRec"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textAlignment="center"
+        android:hint="Type your message here">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/send_icon"
+        android:layout_toEndOf="@id/msg"
+        android:id="@+id/sendMsg_btn"
+       android:layout_below="@id/chatmsgRec"
+        android:layout_marginTop="15dp"
+        android:clickable="true" />
+
+
+
+</RelativeLayout>

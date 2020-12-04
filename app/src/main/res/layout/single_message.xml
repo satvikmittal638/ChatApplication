@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="By me"
+            android:textStyle="italic"
+            android:textColor="#000"
+            android:id="@+id/disp_sender"
+            android:textSize="20dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Message displays here"
+            android:singleLine="false"
+            android:layout_toEndOf="@id/disp_sender"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:id="@+id/disp_msg"/>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
