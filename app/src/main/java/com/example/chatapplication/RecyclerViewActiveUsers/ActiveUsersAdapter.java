@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.example.chatapplication.ChatPage;
 import com.example.chatapplication.Model.userModel;
 import com.example.chatapplication.R;
@@ -46,6 +47,7 @@ Context context;
 
         FirebaseUser selfUser= FirebaseAuth.getInstance().getCurrentUser();
 
+        Glide.with(context).load(model.getPimageUrl()).into(holder.activeUserImage);
 
         if(selfUser!=null && (model.getEmail().equals(selfUser.getEmail())) ) {
             holder.disp_email.setText("You");
@@ -61,7 +63,7 @@ Context context;
                     Intent intent=new Intent(holder.disp_email.getContext(), ChatPage.class);
                     intent.putExtra("userToChatWith",model.getEmail());
                     holder.disp_email.getContext().startActivity(intent);
-                    Toast.makeText(holder.disp_email.getContext(),"Chat here",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(holder.disp_email.getContext(),"Chat here",Toast.LENGTH_SHORT).show();
                 }
             });
         }
