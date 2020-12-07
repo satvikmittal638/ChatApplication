@@ -52,14 +52,15 @@ public class Register extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private final int REQUEST_CODE=1;
 
+    ProgressDialog pDialog;
+
     Uri pimageUri;
     Bitmap pimageBitmap;
 
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(this, ActiveUsers.class));
             finish();
         }
@@ -71,6 +72,8 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.register);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        pDialog = new ProgressDialog(this);
+        pDialog.setTitle("Creating User");
 
         regEmail = findViewById(R.id.regEmail);
         regPwd = findViewById(R.id.regPwd);
@@ -116,7 +119,7 @@ public class Register extends AppCompatActivity {
     }
 
     public void userRegister(View view) {
-
+        pDialog.show();
         String email = regEmail.getEditText().getText().toString(),
                 pwd = regPwd.getEditText().getText().toString();
 
@@ -126,31 +129,25 @@ public class Register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
+
+
                             Toasty.success(getApplicationContext(), "Registration Successful", Toasty.LENGTH_SHORT).show();
                             startActivity(new Intent(Register.this, ActiveUsers.class));
                             finish();
-
-                            FirebaseUser newUser = mAuth.getCurrentUser();
-
-
 
                             mAuth.signInWithEmailAndPassword(email, pwd)
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
-                                            assert newUser != null;
-
-
-
-                                            uploadImageToFirebase(newUser.getEmail());
-                                            userModel u = new userModel(newUser.getEmail(), "online");
-
-                                            FirebaseDatabase.getInstance().getReference("Users").child(newUser.getUid())
-                                                    .setValue(u);
-
+                                            if(task.isSuccessful()) {
+                                                userModel u = new userModel(mAuth.getCurrentUser().getEmail(), "online");
+                                                FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid())
+                                                        .setValue(u);
+                                            }
                                         }
                                     });
 
+                            uploadImageToFirebase();
 
                         } else {
                             Toasty.error(getApplicationContext(), "Registration failed", Toasty.LENGTH_SHORT).show();
@@ -162,21 +159,19 @@ public class Register extends AppCompatActivity {
 
     }
 
-    private void uploadImageToFirebase(String userEmail) {
-        ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setTitle("Creating User");
-        pDialog.show();
+    private void uploadImageToFirebase() {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference uploadstorageReference = storage.getReference().child("pimages").child(userEmail);
-        uploadstorageReference.putFile(pimageUri)
+        StorageReference uploadStorageReference = storage.getReference().child("pimages")
+                .child(mAuth.getCurrentUser().getEmail());
+
+        uploadStorageReference.putFile(pimageUri)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         pDialog.dismiss();
                     }
                 });
-
     }
 
     private void clearTexts() {

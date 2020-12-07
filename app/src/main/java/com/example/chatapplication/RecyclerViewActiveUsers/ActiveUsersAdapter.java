@@ -44,10 +44,9 @@ Context context;
     @Override
     protected void onBindViewHolder(@NonNull viewHolderActiveUsers holder, int position, @NonNull userModel model) {
 
-
         FirebaseUser selfUser= FirebaseAuth.getInstance().getCurrentUser();
 
-        Glide.with(context).load(model.getPimageUrl()).into(holder.activeUserImage);
+//        Glide.with(context).load(model.getPimageUrl()).into(holder.activeUserImage);
 
         if(selfUser!=null && (model.getEmail().equals(selfUser.getEmail())) ) {
             holder.disp_email.setText("You");
