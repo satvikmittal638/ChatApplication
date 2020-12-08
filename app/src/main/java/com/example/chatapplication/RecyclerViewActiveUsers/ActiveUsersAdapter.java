@@ -57,7 +57,8 @@ Context context;
 
 
 
-        StorageReference imageRef=FirebaseStorage.getInstance().getReference().child("pimages").child(model.getEmail());
+        StorageReference imageRef=FirebaseStorage.getInstance().getReference()
+                .child("pimages").child(model.getEmail());
         try {
             File localFile=File.createTempFile(model.getEmail(),".jpeg");
             imageRef.getFile(localFile)
