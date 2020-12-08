@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.chatapplication.ActiveUsersFragment;
 import com.example.chatapplication.ChatPage;
+import com.example.chatapplication.Chat_Fragment;
 import com.example.chatapplication.Model.userModel;
 import com.example.chatapplication.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -93,9 +96,9 @@ Context context;
             holder.sUserCardV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(holder.disp_email.getContext(), ChatPage.class);
-                    intent.putExtra("userToChatWith",model.getEmail());
-                    holder.disp_email.getContext().startActivity(intent);
+                    AppCompatActivity activity=(AppCompatActivity)v.getContext();
+
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.wrapper,new Chat_Fragment(model.getEmail())).addToBackStack(null).commit();
 //                    Toast.makeText(holder.disp_email.getContext(),"Chat here",Toast.LENGTH_SHORT).show();
                 }
             });

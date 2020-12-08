@@ -31,14 +31,7 @@ import java.util.Map;
 import es.dmoral.toasty.Toasty;
 
 public class ChatPage extends AppCompatActivity {
-List<disp_msgModel> dispMsgModelList;
 
-TextInputLayout msg;
-ImageView send_btn;
-RecyclerView chatsRec;
-TextView userChattingHead;
-FirebaseUser currentUser;
-MessagesAdapter messagesAdapter;
 
 
     @Override
