@@ -28,20 +28,5 @@ public class ActiveUsers extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.wrapper,new ActiveUsersFragment()).commit();
-
-
-
-
-
     }
-
-
-
-
-
-
-    public void logout(View view) {
-
-    }
-
 }

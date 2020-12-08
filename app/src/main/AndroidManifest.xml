@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApplication">
-        <activity android:name=".ChatPage"></activity>
         <activity android:name=".ActiveUsers" />
         <activity android:name=".Login" />
         <activity android:name=".Register">
