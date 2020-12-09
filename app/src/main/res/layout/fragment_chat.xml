@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ChatPage">
+        tools:context=".ChatPage"
+        android:background="@drawable/chat_bg">
 
         <TextView
             android:layout_width="match_parent"
@@ -16,20 +17,20 @@
             android:text="Email chatting with"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:textColor="#000"
-            android:textStyle="bold|italic"
+            android:textColor="#A2D5DC"
+            android:textStyle="bold"
             android:id="@+id/head"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_below="@id/head"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             android:id="@+id/chatmsgRec"
             />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/msg"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/chatmsgRec"
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/sendMsg_btn"
@@ -49,8 +50,9 @@
             android:layout_height="50dp"
             android:src="@drawable/send_icon"
 
+            android:layout_alignParentBottom="true"
+
             android:id="@+id/sendMsg_btn"
-            android:layout_below="@id/chatmsgRec"
             android:layout_marginTop="15dp"
             android:layout_alignParentEnd="true"
             android:clickable="true"
