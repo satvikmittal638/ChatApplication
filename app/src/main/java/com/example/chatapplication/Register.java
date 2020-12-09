@@ -47,6 +47,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 
 public class Register extends AppCompatActivity {
+    Boolean imageIsChoosed=false;
     TextInputLayout regEmail, regPwd;
     CircleImageView regPimage;
     private FirebaseAuth mAuth;
@@ -119,42 +120,45 @@ public class Register extends AppCompatActivity {
     }
 
     public void userRegister(View view) {
-        pDialog.show();
-        String email = regEmail.getEditText().getText().toString(),
-                pwd = regPwd.getEditText().getText().toString();
+        if(imageIsChoosed) {
+            pDialog.show();
+            String email = regEmail.getEditText().getText().toString(),
+                    pwd = regPwd.getEditText().getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(email, pwd)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+            mAuth.createUserWithEmailAndPassword(email, pwd)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if (task.isSuccessful()) {
+                            if (task.isSuccessful()) {
 
 
-                            Toasty.success(getApplicationContext(), "Registration Successful", Toasty.LENGTH_SHORT).show();
-                            startActivity(new Intent(Register.this, ActiveUsers.class));
-                            finish();
+                                Toasty.success(getApplicationContext(), "Registration Successful", Toasty.LENGTH_SHORT).show();
+                                startActivity(new Intent(Register.this, ActiveUsers.class));
+                                finish();
 
-                            mAuth.signInWithEmailAndPassword(email, pwd)
-                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()) {
-                                                userModel u = new userModel(mAuth.getCurrentUser().getEmail(), "online");
-                                                FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid())
-                                                        .setValue(u);
+                                mAuth.signInWithEmailAndPassword(email, pwd)
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    userModel u = new userModel(FirebaseAuth.getInstance().getCurrentUser().getEmail(), "online");
+                                                    FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid())
+                                                            .setValue(u);
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
 
-                            uploadImageToFirebase();
+                                uploadImageToFirebase();
 
-                        } else {
-                            Toasty.error(getApplicationContext(), "Registration failed", Toasty.LENGTH_SHORT).show();
-                            clearTexts();
+                            } else {
+                                Toasty.error(getApplicationContext(), "Registration failed", Toasty.LENGTH_SHORT).show();
+                                clearTexts();
+                            }
                         }
-                    }
-                });
+                    });
+        }else
+            Toasty.warning(getApplicationContext(),"Choose a Profile Image",Toasty.LENGTH_SHORT).show();
 
 
     }
@@ -163,7 +167,7 @@ public class Register extends AppCompatActivity {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference uploadStorageReference = storage.getReference().child("pimages")
-                .child(mAuth.getCurrentUser().getEmail());
+                .child(regEmail.getEditText().getText().toString());
 
         uploadStorageReference.putFile(pimageUri)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -189,6 +193,7 @@ public class Register extends AppCompatActivity {
                 InputStream inputStream=getContentResolver().openInputStream(pimageUri);
                 pimageBitmap= BitmapFactory.decodeStream(inputStream);
                 regPimage.setImageBitmap(pimageBitmap);
+                setImageIsChoosed(true);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -196,5 +201,11 @@ public class Register extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+
+
+    private void setImageIsChoosed(Boolean imageIsChoosed){
+        this.imageIsChoosed=imageIsChoosed;
     }
 }
