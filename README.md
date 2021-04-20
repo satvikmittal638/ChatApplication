@@ -1,4 +1,4 @@
-# Read Me Template
+# Chit Chat Application
 
 ![Chit Chat](https://github.com/satvikmittal638/ChatApplication/blob/master/app/src/main/res/drawable/app_icon.jpg)
 
